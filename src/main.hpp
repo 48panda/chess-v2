@@ -54,6 +54,8 @@ class Game {
       char tileNames[64][3];
       bool whiteToMove;
     //private:
+      u64 hash;
+      u64 hashTable[64][16];
 
       bool whiteCastleKingSide;
       bool whiteCastleQueenSide;

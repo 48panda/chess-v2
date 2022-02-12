@@ -1,2 +1,6 @@
 *.o
-*.exe*
+*.exe
+*.exe.stackdump
+.vscode/*
+.vscode/
+bin/

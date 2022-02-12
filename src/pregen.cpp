@@ -1,7 +1,13 @@
 #include "main.hpp"
 #include <algorithm>
+#include <random>
 
 void Game::genPregenData() {
+    std::random_device rd;
+
+    std::mt19937_64 e2(rd());
+
+    std::uniform_int_distribution<long long int> dist(std::llround(0), std::llround(std::pow(2,63)));
     for(s8 x = 0; x < 8; x++) {
         for (s8 y = 0; y < 8; y++) {
             int index = x * 8 + y;
@@ -57,6 +63,10 @@ void Game::genPregenData() {
             tileNames[index][0] = 'a' + y;
             tileNames[index][1] = '8' - x;
             tileNames[index][2] = '\0';
+            for (s8 i = 0; i < 16; i++) {
+                u64 toStore = dist(e2);
+                hashTable[index][i] = toStore;
+            }
         }
     }
 }

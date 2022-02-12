@@ -9,6 +9,7 @@ struct move {
     u8 to;
     u8 captured;
     int flags;
+    u64 hash = 0;
     void printMove(Game &board);
     bool whiteCastleKingSide = false;
     bool whiteCastleQueenSide = false;

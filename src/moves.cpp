@@ -186,8 +186,39 @@ std::vector<move> Game::getLegalMoves() {
     }
     return legalMoves;
 }
+char getPieceIndex(u8 value) {
+    switch (value) {
+        case 0b10000101:
+            return 0;
+        case 0b10000110:
+            return 1;
+        case 0b10000111:
+            return 2;
+        case 0b10001000:
+            return 3;
+        case 0b10010000:
+            return 4;
+        case 0b10100000:
+            return 5;
+        case 0b01000101:
+            return 6;
+        case 0b01000110:
+            return 7;
+        case 0b01000111:
+            return 8;
+        case 0b01001000:
+            return 9;
+        case 0b01010000:
+            return 10;
+        case 0b01100000:
+            return 11;
+        default:
+            return 12;
 
+    }
+}
 void Game::doMove(move &m) {
+    m.hash = hash;
     m.blackCastleKingSide = blackCastleKingSide;
     m.blackCastleQueenSide = blackCastleQueenSide;
     m.whiteCastleKingSide = whiteCastleKingSide;
@@ -198,7 +229,7 @@ void Game::doMove(move &m) {
     enPassant = 65;
     whiteToMove = !whiteToMove;
     board[m.to] = board[m.from];
-    board[m.from] = 0;
+    board[m.from] = 0;    
     if (m.flags & 0x80) {
         board[m.flags & 0x7F] = 0;
     }
@@ -266,9 +297,39 @@ void Game::doMove(move &m) {
             whiteCastleKingSide = false;
         }
     }
+    // Zobrist hashing
+    hash ^= hashTable[m.from][getPieceIndex(board[m.to])];
+    hash ^= hashTable[m.from][12];
+    hash ^= hashTable[m.to][getPieceIndex(board[m.to])];
+    if (m.flags & 0x80) {
+        hash ^= hashTable[m.flags & 0x7F][getPieceIndex(m.captured)];
+    } else {
+        hash ^= hashTable[m.to][getPieceIndex(m.captured)];
+    }
+    if (whiteCastleKingSide != m.whiteCastleKingSide) {
+        hash ^= hashTable[56][13];
+    }
+    if (whiteCastleQueenSide != m.whiteCastleQueenSide) {
+        hash ^= hashTable[56][14];
+    }
+    if (blackCastleKingSide != m.blackCastleKingSide) {
+        hash ^= hashTable[0][13];
+    }
+    if (blackCastleQueenSide != m.blackCastleQueenSide) {
+        hash ^= hashTable[0][14];
+    }
+    if (enPassant != m.enPassant) {
+        if (m.enPassant != 65) {
+            hash ^= hashTable[m.enPassant][15];
+        }
+        if (enPassant != 65) {
+            hash ^= hashTable[enPassant][15];
+        }
+    }
 }
 
 void Game::undoMove(move &m) {
+    hash = m.hash;
     blackCastleQueenSide = m.blackCastleQueenSide;
     blackCastleKingSide = m.blackCastleKingSide;
     whiteCastleQueenSide = m.whiteCastleQueenSide;
