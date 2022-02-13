@@ -26,5 +26,5 @@ clean:
 	cmd /C del main.exe /F /Q
 
 $(BIN_DIR)/%.o: $(SRC_DIR)/%.cpp
-	g++ -O3 -c $< -o $@
+	g++ -std=c++17 -O3 -c $< -o $@
 

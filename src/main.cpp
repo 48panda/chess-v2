@@ -1,6 +1,7 @@
 #include "main.hpp"
 #include "fen.hpp"
 #include "pregen.hpp"
+#include "lru.hpp"
 
 Game::Game(u8 (&new_board)[64], bool new_whiteToMove, u8 castling, u8 new_enPassant, u8 new_halfMoveClock, u16 new_fullMoveNumber, u8 new_whiteKingIndex, u8 new_blackKingIndex) {
     for (int i = 0; i < 64; i++) {
@@ -117,19 +118,17 @@ int main(int argc, char* argv[]) {
 
     Game board = decodeFen(fen{argv[1], argv[2], argv[3], argv[4], argv[5], argv[6]});
     
-    std::cout << "Beginning search..." << std::endl;
+    std::cout << "Beginning LRU test." << std::endl;
 
-    move m = board.getLegalMoves()[0];
-    board.printBoard();
-    std::cout << board.hash << std::endl;
-    board.doMove(m);
-    board.printBoard();
-    std::cout << board.hash << std::endl;
-    board.undoMove(m);
-    board.printBoard();
-    std::cout << board.hash << std::endl;
+    lru_cache cache(2);
 
-
-
+    cache.add_node(1, 50);
+    cache.add_node(2, 64);
+    std::cout << "Value of 1: " << std::to_string(cache.get_node(1)) << std::endl;
+    std::cout << "Value of 2: " << std::to_string(cache.get_node(2)) << std::endl;
+    cache.add_node(3, 25);
+    std::cout << "Value of 3: " << std::to_string(cache.get_node(3)) << std::endl;
+    std::cout << "Value of 2: " << std::to_string(cache.get_node(2)) << std::endl;
+    std::cout << "Value of 1: " << std::to_string(cache.get_node(1)) << std::endl;
     return 0;
 }

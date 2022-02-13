@@ -7,15 +7,15 @@
 #include <vector>
 #include <string>
 
-using u64 = std::uint_fast64_t;
-using u32 = std::uint_fast32_t;
-using u16 = std::uint_fast16_t;
-using u8 = std::uint_fast8_t;
-using s64 = std::int_fast64_t;
-using s32 = std::int_fast32_t;
-using s16 = std::int_fast16_t;
-using s8 = std::int_fast8_t;
-
+typedef std::uint_fast64_t u64;
+typedef std::uint_fast32_t u32;
+typedef std::uint_fast16_t u16;
+typedef std::uint_fast8_t u8;
+typedef std::int_fast64_t s64;
+typedef std::int_fast32_t s32;
+typedef std::int_fast16_t s16;
+typedef std::int_fast8_t s8;
+ 
 
 // flags:
 // 0x1: Slide orthogonally

@@ -117,5 +117,12 @@ int Game::evaluateGameState() {
         if (piece == Pieces::BlackQueen) {
             total += BlackQueenTable[i];
         }
+        if (piece == Pieces::WhiteKing) {
+            total += 20000;
+        }
+        if (piece == Pieces::BlackKing) {
+            total += 20000;
+        }
     }
+    return total;
 }
