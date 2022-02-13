@@ -48,6 +48,36 @@ using s8 = std::int_fast8_t;
 */
 class move;
 
+class Pieces {
+  public:
+    static inline const u8 WhitePawn = 0b10100000;
+    static inline const u8 WhiteRook = 0b10000101;
+    static inline const u8 WhiteKnight = 0b10010000;
+    static inline const u8 WhiteBishop = 0b10000110;
+    static inline const u8 WhiteQueen = 0b10000111;
+    static inline const u8 WhiteKing = 0b10001000;
+  
+    static inline const u8 BlackPawn = 0b01100000;
+    static inline const u8 BlackRook = 0b01000101;
+    static inline const u8 BlackKnight = 0b01010000;
+    static inline const u8 BlackBishop = 0b01000110;
+    static inline const u8 BlackQueen = 0b01000111;
+    static inline const u8 BlackKing = 0b01001000;
+  
+    static inline const u8 empty = 0b00000000;
+  
+    static inline const u8 Pawn = 0b00100000;
+    static inline const u8 Rook = 0b00000101;
+    static inline const u8 Knight = 0b00010000;
+    static inline const u8 Bishop = 0b00000110;
+    static inline const u8 Queen = 0b00000111;
+    static inline const u8 King = 0b00001000;
+  
+    static inline const u8 Black = 0b01000000;
+    static inline const u8 White = 0b10000000;
+
+};
+
 class Game {
     public:
       u8 board[64];
@@ -78,6 +108,7 @@ class Game {
       void doMove(move &m);
       void undoMove(move &m);
       bool isInCheck(bool logging);
+      int evaluateGameState();
 
 };
 
