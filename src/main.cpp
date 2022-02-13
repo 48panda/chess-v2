@@ -2,6 +2,7 @@
 #include "fen.hpp"
 #include "pregen.hpp"
 #include "lru.hpp"
+#include "searcher.hpp"
 
 Game::Game(u8 (&new_board)[64], bool new_whiteToMove, u8 castling, u8 new_enPassant, u8 new_halfMoveClock, u16 new_fullMoveNumber, u8 new_whiteKingIndex, u8 new_blackKingIndex) {
     for (int i = 0; i < 64; i++) {
@@ -120,15 +121,8 @@ int main(int argc, char* argv[]) {
     
     std::cout << "Beginning LRU test." << std::endl;
 
-    lru_cache cache(2);
+    move m = search(board, 3);
 
-    cache.add_node(1, 50);
-    cache.add_node(2, 64);
-    std::cout << "Value of 1: " << std::to_string(cache.get_node(1)) << std::endl;
-    std::cout << "Value of 2: " << std::to_string(cache.get_node(2)) << std::endl;
-    cache.add_node(3, 25);
-    std::cout << "Value of 3: " << std::to_string(cache.get_node(3)) << std::endl;
-    std::cout << "Value of 2: " << std::to_string(cache.get_node(2)) << std::endl;
-    std::cout << "Value of 1: " << std::to_string(cache.get_node(1)) << std::endl;
+    m.printMove(board);
     return 0;
 }

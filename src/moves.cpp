@@ -1,7 +1,7 @@
 #include "moves.hpp"
 
 void move::printMove(Game &board) {
-    std::cout << board.tileNames[from] << "=>" << board.tileNames[to];
+    std::cout << std::to_string(from) << "-" << std::to_string(to) << " ";
 }
 
 std::vector<move> Game::genMoves() {
