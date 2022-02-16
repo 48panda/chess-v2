@@ -121,7 +121,7 @@ int Game::evaluateGameState() {
             total += 20000;
         }
         if (piece == Pieces::BlackKing) {
-            total += 20000;
+            total += -20000;
         }
     }
     return total;

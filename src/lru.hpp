@@ -22,7 +22,7 @@ class lru_cache {
         lru_cache(int new_max_size);
         void add_node(u64 key, int value);
         int get_node(u64 key);
-        int get_failed = 0x7FFFFFFF;
+        static inline const int get_failed = 0x7FFFFFFF;
 };
 
 #endif
