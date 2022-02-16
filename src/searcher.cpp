@@ -9,7 +9,7 @@ int negamax(Game &board, int depth, int alpha, int beta, lru_cache &cache) {
     }
     int cacheres = cache.get_node(board.hash);
     if (cacheres != lru_cache::get_failed) { // If cache get did not fail, return cache get result
-        return cacheres
+        return cacheres;
     }
     std::vector<move> childNodes = board.getLegalMoves();
     if (childNodes.size() == 0) {
