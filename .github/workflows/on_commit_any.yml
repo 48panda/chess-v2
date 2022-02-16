@@ -20,3 +20,4 @@ jobs:
             main.exe
           name: dev
           tag_name: dev
+          prerelease: true
