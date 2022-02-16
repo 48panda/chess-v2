@@ -23,7 +23,7 @@ int negamax(Game &board, int depth, int alpha, int beta, lru_cache &cache) {
     int best = -0x7FFFFFFF;
     for (move m: childNodes) {
         board.doMove(m);
-        int res = -negamax(board, depth - 1, -beta, -alpha);
+        int res = -negamax(board, depth - 1, -beta, -alpha, cache);
         board.undoMove(m);
         if (res > best) {
             best = res;
