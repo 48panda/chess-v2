@@ -5,7 +5,11 @@
 
 int negamax(Game &board, int depth, int alpha, int beta, lru_cache &cache) {
     if (depth == 0) {
-        return board.evaluateGameState();
+        if (board.whiteToMove) {
+            return  board.evaluateGameState();
+        } else {
+            return -board.evaluateGameState();
+        }
     }
     int cacheres = cache.get_node(board.hash);
     if (cacheres != lru_cache::get_failed) { // If cache get did not fail, return cache get result
