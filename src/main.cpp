@@ -118,11 +118,27 @@ int main(int argc, char* argv[]) {
     std::cout << "Converting FEN string..." << std::endl;
 
     Game board = decodeFen(fen{argv[1], argv[2], argv[3], argv[4], argv[5], argv[6]});
-    
-    std::cout << "Beginning LRU test." << std::endl;
+    std::chrono::system_clock::time_point start = std::chrono::high_resolution_clock::now();
+    auto elapsed = std::chrono::high_resolution_clock::now() - start;
+    long long microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
+    move m;
+    int i = 1;
+    while (microseconds < 1000000) {
+        move ret = search(board, i, start, 1000000);
+        if (ret.to == 255) {
+            break;
+        }
+        m = ret;
+        i++;
+        auto elapsed = std::chrono::high_resolution_clock::now() - start;
+        microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
+    }
+    elapsed = std::chrono::high_resolution_clock::now() - start;
+    microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
+    /* Getting number of milliseconds as an integer. */
 
-    move m = search(board, 3);
-
+    std::cout << "Took " << microseconds << "us" << std::endl;
+    std::cout << "Searched to depth " << i << std::endl;
     m.printMove(board);
     return 0;
 }
