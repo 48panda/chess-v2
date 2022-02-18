@@ -1,0 +1,90 @@
+td {
+    width: 50px;
+    height: 50px;
+    max-width: 50px;
+    max-height: 50px;
+    min-width: 50px;
+    min-height: 50px;
+    padding: 0;
+    text-align: center;
+    font-size: 37px;
+    font-family: "Pecita";
+}
+tr:nth-child(odd) td:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+tr:nth-child(even) td:nth-child(even) {
+    background-color: #f2f2f2;
+}
+tr:nth-child(odd) td:nth-child(even) {
+    background-color: #b2b2b2;
+}
+tr:nth-child(even) td:nth-child(odd) {
+    background-color: #b2b2b2;
+}
+td:not(.white):not(.moveTo) {
+    cursor: default;
+}
+td.white, td.moveTo {
+    cursor: pointer;
+}
+.king.white::after {
+    content: "♔";
+}
+.king.black::after {
+    content: "♚";
+}
+.queen.white::after {
+    content: "♕";
+}
+.queen.black::after {
+    content: "♛";
+}
+.rook.white::after {
+    content: "♖";
+}
+.rook.black::after {
+    content: "♜";
+}
+.bishop.white::after {
+    content: "♗";
+}
+.bishop.black::after {
+    content: "♝";
+}
+.knight.white::after {
+    content: "♘";
+}
+.knight.black::after {
+    content: "♞";
+}
+.pawn.white::after {
+    content: "♙";
+}
+.pawn.black::after {
+    content: "♟︎";
+}
+tr:nth-child(odd) td:nth-child(odd).selected {
+    background-color: #aabcec;
+}
+tr:nth-child(even) td:nth-child(even).selected {
+    background-color: #aabcec;
+}
+tr:nth-child(odd) td:nth-child(even).selected {
+    background-color: #aabcec;
+}
+tr:nth-child(even) td:nth-child(odd).selected {
+    background-color: #aabcec;
+}
+tr:nth-child(odd) td:nth-child(odd).moveTo {
+    background-color: #afecaa;
+}
+tr:nth-child(even) td:nth-child(even).moveTo {
+    background-color: #afecaa;
+}
+tr:nth-child(odd) td:nth-child(even).moveTo {
+    background-color: #afecaa;
+}
+tr:nth-child(even) td:nth-child(odd).moveTo {
+    background-color: #afecaa;
+}

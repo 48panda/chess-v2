@@ -115,7 +115,6 @@ int main(int argc, char* argv[]) {
         std::cout << "Usage: " << argv[0] << " <fen string>" << std::endl;
         return 1;
     }
-    std::cout << "Converting FEN string..." << std::endl;
 
     Game board = decodeFen(fen{argv[1], argv[2], argv[3], argv[4], argv[5], argv[6]});
     std::chrono::system_clock::time_point start = std::chrono::high_resolution_clock::now();
@@ -136,9 +135,6 @@ int main(int argc, char* argv[]) {
     elapsed = std::chrono::high_resolution_clock::now() - start;
     microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
     /* Getting number of milliseconds as an integer. */
-
-    std::cout << "Took " << microseconds << "us" << std::endl;
-    std::cout << "Searched to depth " << i << std::endl;
     m.printMove(board);
     return 0;
 }
