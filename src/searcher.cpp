@@ -2,8 +2,7 @@
 #include "lru.hpp"
 #include <algorithm>
 
-
-int negamax(Game &board, int depth, int alpha, int beta, lru_cache &cache, std::chrono::system_clock::time_point start, int maxTime) {
+int negamax(Game &board, int depth, int alpha, int beta, lru_cache &cache, std::chrono::system_clock::time_point start, int maxTime, std::unordered_map<u64, move> &this_best, std::unordered_map<u64, move> &last_best) {
     if (depth == 0) {
         if (board.whiteToMove) {
             return  board.evaluateGameState();
@@ -16,10 +15,10 @@ int negamax(Game &board, int depth, int alpha, int beta, lru_cache &cache, std::
     if (microseconds > maxTime) {
         return -0x7FFFFFFF;
     }
-    /*int cacheres = cache.get_node(board.hash);
+    int cacheres = cache.get_node(board.hash);
     if (cacheres != lru_cache::get_failed) { // If cache get did not fail, return cache get result
         return cacheres;
-    }*/
+    }
     std::vector<move> childNodes = board.getLegalMoves();
     if (childNodes.size() == 0) {
         if (board.isInCheck(true)) {
@@ -29,14 +28,31 @@ int negamax(Game &board, int depth, int alpha, int beta, lru_cache &cache, std::
         }
     }
     int best = -0x7FFFFFFE;
+    move bestMove;
+    if (depth != 1) {
+        auto res = last_best.find(board.hash);
+        if (res != last_best.end()){
+            move m = res->second;
+            board.doMove(m);
+            int res = -negamax(board, depth - 1, -beta, -alpha, cache, start, maxTime, this_best, last_best);
+            if (res == 0x7FFFFFFF) {
+                return -res;
+            }
+            board.undoMove(m);
+            bestMove = m;
+            best = res;
+            alpha = std::max(alpha, best);
+        }
+    }
     for (move m: childNodes) {
         board.doMove(m);
-        int res = -negamax(board, depth - 1, -beta, -alpha, cache, start, maxTime);
+        int res = -negamax(board, depth - 1, -beta, -alpha, cache, start, maxTime, this_best, last_best);
         if (res == 0x7FFFFFFF) {
-            return res;
+            return -res;
         }
         board.undoMove(m);
-        if (res > best) {
+        if (res >= best) {
+            bestMove = m;
             best = res;
         }
         alpha = std::max(alpha, best);
@@ -44,23 +60,25 @@ int negamax(Game &board, int depth, int alpha, int beta, lru_cache &cache, std::
             break;
         }
     }
+    //this_best.insert({board.hash, bestMove});
     cache.add_node(board.hash, best); // Add to cache
     return best;
 
 }
 
-move search(Game &board, int depth, std::chrono::system_clock::time_point start, int maxTime) {
+searchReturn search(Game &board, int depth, std::chrono::system_clock::time_point start, int maxTime, std::unordered_map<u64, move> &last_best) {
+    std::unordered_map<u64, move> this_best;
     int alpha = -0x7FFFFFFF;
     int beta = 0x7FFFFFFF;
     int best = -0x7FFFFFFF;
-    lru_cache cache(1000);
+    lru_cache cache(100000);
     move bestMove;
     for (move m: board.getLegalMoves()) {
         board.doMove(m);
-        int res = -negamax(board, depth - 1, -beta, -alpha, cache, start, maxTime);
-        if (res == -0x7FFFFFFF) {
+        int res = -negamax(board, depth - 1, -beta, -alpha, cache, start, maxTime, this_best, last_best);
+        if (res == 0x7FFFFFFF) {
             board.undoMove(m);
-            return move{255, 255, 255};
+            return searchReturn{move{255, 255, 255, 0},this_best};
         }
         board.undoMove(m);
         if (res >= best) {
@@ -69,5 +87,5 @@ move search(Game &board, int depth, std::chrono::system_clock::time_point start,
         }
         alpha = std::max(alpha, best);
     }
-    return bestMove;
+    return searchReturn{bestMove, this_best};
 }

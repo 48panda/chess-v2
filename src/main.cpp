@@ -72,7 +72,7 @@ int countBoards(Game &board, int depth, bool first) {
         board.doMove(m);
         int res = countBoards(board, depth - 1, false);
         if (first) {
-            m.printMove(board);
+            m.printMove();
             std::cout << ": " << res << std::endl;
         }
         count += res;
@@ -118,23 +118,20 @@ int main(int argc, char* argv[]) {
 
     Game board = decodeFen(fen{argv[1], argv[2], argv[3], argv[4], argv[5], argv[6]});
     std::chrono::system_clock::time_point start = std::chrono::high_resolution_clock::now();
-    auto elapsed = std::chrono::high_resolution_clock::now() - start;
-    long long microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
     move m;
     int i = 1;
-    while (microseconds < 1000000) {
-        move ret = search(board, i, start, 1000000);
-        if (ret.to == 255) {
+    std::unordered_map<u64, move> last_best = {{0, m}};
+    last_best.erase(0);
+    while (true) {
+        searchReturn ret = search(board, i, start, 1000000, last_best);
+        if (ret.m.to == 255) {
             break;
         }
-        m = ret;
+        m = ret.m;
         i++;
-        auto elapsed = std::chrono::high_resolution_clock::now() - start;
-        microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
+        last_best = ret.last_iter;
     }
-    elapsed = std::chrono::high_resolution_clock::now() - start;
-    microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
     /* Getting number of milliseconds as an integer. */
-    m.printMove(board);
+    m.printMove();
     return 0;
 }

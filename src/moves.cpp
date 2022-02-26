@@ -1,6 +1,6 @@
 #include "moves.hpp"
 
-void move::printMove(Game &board) {
+void move::printMove() {
     std::cout << std::to_string(from) << "-" << std::to_string(to) << " ";
 }
 
@@ -186,7 +186,7 @@ std::vector<move> Game::getLegalMoves() {
     }
     return legalMoves;
 }
-char getPieceIndex(u8 value) {
+unsigned char getPieceIndex(u8 value) {
     switch (value) {
         case 0b10000101:
             return 0;
@@ -269,7 +269,7 @@ void Game::doMove(move &m) {
             blackKingIndex = m.to;
         }
     }
-    if (board[m.to] & 0x3 == 1) {
+    if ((board[m.to] & 0x3) == 1) {
         if (m.from == 0) {
             blackCastleQueenSide = false;
         }
@@ -283,7 +283,7 @@ void Game::doMove(move &m) {
             whiteCastleKingSide = false;
         }
     }
-    if (m.captured & 0x3 == 1) {
+    if ((m.captured & 0x3) == 1) {
         if (m.to == 0) {
             blackCastleQueenSide = false;
         }

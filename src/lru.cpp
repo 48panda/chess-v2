@@ -21,7 +21,6 @@ void lru_cache::add_node(u64 key, int value) {
     size++;
     while (size > max_size) {
         map.erase(tail->key);
-        node* temp = tail;
         tail = tail->prev;
         tail->next = nullptr;
         size--;

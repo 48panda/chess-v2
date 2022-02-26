@@ -4,7 +4,11 @@
 #include "main.hpp"
 #include "lru.hpp"
 
-int negamax(Game &board, int depth, int alpha, int beta, lru_cache &cache, std::chrono::system_clock::time_point start, int maxTime);
-move search(Game &board, int depth, std::chrono::system_clock::time_point start, int maxTime);
+struct searchReturn {
+    move m;
+    std::unordered_map<u64, move> last_iter;
+};
+
+searchReturn search(Game &board, int depth, std::chrono::system_clock::time_point start, int maxTime, std::unordered_map<u64, move> &last_best);
 
 #endif

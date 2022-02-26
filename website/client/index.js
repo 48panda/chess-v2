@@ -306,20 +306,31 @@ let initCell = (x,y) => {
             
         }
         if (cell.classList.contains("moveTo")) {
-            selected.classList.remove("selected");
-            cell.classList = selected.classList;
-            selected.classList = "empty";
-            selected = null;
-            for (let cell of document.querySelectorAll(".moveTo")) {
+            for (let cell of document.querySelectorAll("td")) {
                 cell.classList.remove("moveTo");
+                cell.classList.remove("prevTo");
+                cell.classList.remove("prevFrom");
             }
+            selected.classList.remove("selected");
+            console.log(selected);
+            cell.classList = selected.classList;
+            console.log("ADD TO SELECTED");
+            console.log(selected);
+            cell.classList.add("prevTo");
+            selected.classList = "empty prevFrom";
+            selected = null;
             playersTurn = false;
             data = await fetch(`/api/${tableToPythonEncoded(document)}`, {method: "GET"})
             data = await data.json()
             from = indexCell(data[0][0],data[0][1]);
             to = indexCell(data[1][0],data[1][1]);
+            for (let cell of document.querySelectorAll("td")) {
+                cell.classList.remove("prevTo");
+                cell.classList.remove("prevFrom");
+            }
             to.classList = from.classList;
-            from.classList = "empty";
+            to.classList.add("prevTo");
+            from.classList = "empty prevFrom";
             playersTurn = true;
         }
     });

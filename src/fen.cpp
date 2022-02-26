@@ -7,8 +7,8 @@ Game decodeFen(fen fenString) {
     u8 board[64];
     int i = 0;
     int pos = -1;
-    u8 whiteKingIndex;
-    u8 blackKingIndex;
+    u8 whiteKingIndex = 65;
+    u8 blackKingIndex = 65;
     while(i < 64) {
         pos++;
         if (i==64) {
@@ -87,6 +87,7 @@ Game decodeFen(fen fenString) {
             castling |= 0x8;
         }
     }
+
     u8 enPassant = 0;
     if (fenString.enPassant == "-") {
         enPassant = 0;

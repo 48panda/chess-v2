@@ -88,3 +88,27 @@ tr:nth-child(odd) td:nth-child(even).moveTo {
 tr:nth-child(even) td:nth-child(odd).moveTo {
     background-color: #afecaa;
 }
+tr:nth-child(odd) td:nth-child(odd).prevFrom {
+    background-color: #ffb3b3;
+}
+tr:nth-child(even) td:nth-child(even).prevFrom {
+    background-color: #ffb3b3;
+}
+tr:nth-child(odd) td:nth-child(even).prevFrom {
+    background-color: #ffb3b3;
+}
+tr:nth-child(even) td:nth-child(odd).prevFrom {
+    background-color: #ffb3b3;
+}
+tr:nth-child(odd) td:nth-child(odd).prevTo {
+    background-color: #ff5f5f;
+}
+tr:nth-child(even) td:nth-child(even).prevTo {
+    background-color: #ff5f5f;
+}
+tr:nth-child(odd) td:nth-child(even).prevTo {
+    background-color: #ff5f5f;
+}
+tr:nth-child(even) td:nth-child(odd).prevTo {
+    background-color: #ff5f5f;
+}
